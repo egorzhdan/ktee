@@ -6,13 +6,15 @@ class Output(arguments: Arguments) {
     private val files = arguments.fileNames.map(::File)
 
     init {
-        if (!arguments.append) {
-            files.forEach {
+        files.forEach {
+            if (!arguments.append) {
                 if (it.exists() && it.isFile) {
                     it.delete()
                 }
                 it.createNewFile()
             }
+
+            require(!it.isDirectory) { "$it is a directory" }
         }
     }
 
